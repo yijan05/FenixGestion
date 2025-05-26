@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Estudiante</title>
+    <link rel="stylesheet" href="estudiante.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gestión Estudiante</h1>
+
+        <!-- Agregar Estudiante -->
+        <section>
+            <h2>Agregar Estudiante</h2>
+            <input type="text" id="nombreEstudiante" placeholder="Nombre" required>
+            <input type="text" id="tipoDocumentoEstudiante" placeholder="Tipo de Documento" required>
+            <input type="text" id="numeroDocumentoEstudiante" placeholder="Número de Documento" required>
+            <button onclick="agregarEstudiante()">Agregar Estudiante</button>
+        </section>
+
+        <!-- Consultar Estudiante -->
+        <section>
+            <h2>Consultar Estudiante</h2>
+            <input type="text" id="tipoDocumentoBuscar" placeholder="Tipo de Documento" required>
+            <input type="text" id="numeroDocumentoBuscar" placeholder="Número de Documento" required>
+            <button onclick="consultarEstudiante()">Consultar</button>
+            <div id="resultadoConsulta" class="resultado"></div>
+        </section>
+
+        <!-- Modificar Estudiante -->
+        <section>
+            <h2>Modificar Estudiante</h2>
+            <input type="text" id="tipoDocumentoMod" placeholder="Tipo de Documento" required>
+            <input type="text" id="numeroDocumentoMod" placeholder="Número de Documento" required>
+            <input type="text" id="nuevoNombreMod" placeholder="Nuevo Nombre" required>
+            <button onclick="modificarEstudiante()">Modificar</button>
+        </section>
+
+        <!-- Agregar Estudiante a Asignatura -->
+        <section>
+            <h2>Agregar Estudiante a Asignatura</h2>
+            <input type="text" id="tipoDocumentoAgregar" placeholder="Tipo de Documento" required>
+            <input type="text" id="numeroDocumentoAgregar" placeholder="Número de Documento" required>
+            <input type="text" id="codigoAsignaturaAgregar" placeholder="Código Asignatura" required>
+            <input type="text" id="grupoAsignaturaAgregar" placeholder="Grupo" required>
+            <input type="text" id="semestreAsignaturaAgregar" placeholder="Semestre" required>
+            <button onclick="agregarEstudianteAsignatura()">Agregar</button>
+        </section>
+
+        <!-- Consultar Estudiantes en Asignatura -->
+        <section>
+            <h2>Consultar Estudiantes en Asignatura</h2>
+            <input type="text" id="codigoAsignaturaConsultar" placeholder="Código Asignatura" required>
+            <input type="text" id="grupoAsignaturaConsultar" placeholder="Grupo" required>
+            <input type="text" id="semestreAsignaturaConsultar" placeholder="Semestre" required>
+            <button onclick="consultarEstudiantesAsignatura()">Consultar</button>
+            <div id="resultadoAsignatura" class="resultado"></div>
+        </section>
+    </div>
+
+    <script src="estudiante.js"></script>
+</body>
+
+</html>

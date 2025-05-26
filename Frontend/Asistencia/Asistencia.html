@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión Asistencia</title>
+  <link rel="stylesheet" href="asistencia.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Gestión Asistencia</h1>
+
+    <!-- Crear Lista Vacía -->
+    <section>
+      <h2>Crear Lista de Asistencia</h2>
+      <input type="text" id="codigoCrear" placeholder="Código Asignatura" required>
+      <input type="text" id="grupoCrear" placeholder="Grupo" required>
+      <input type="text" id="semestreCrear" placeholder="Semestre" required>
+      <input type="date" id="fechaCrear" required>
+      <input type="time" id="horaInicioCrear" required>
+      <button onclick="crearListaAsistencia()">Crear Lista</button>
+    </section>
+
+    <!-- Registrar Asistencia -->
+    <section>
+      <h2>Registrar Asistencia de Estudiante</h2>
+      <input type="text" id="codigoRegistrar" placeholder="Código Asignatura" required>
+      <input type="text" id="grupoRegistrar" placeholder="Grupo" required>
+      <input type="text" id="semestreRegistrar" placeholder="Semestre" required>
+      <input type="date" id="fechaRegistrar" required>
+      <input type="time" id="horaInicioRegistrar" required>
+      <input type="text" id="documentoRegistrar" placeholder="Documento Estudiante" required>
+      <select id="estadoRegistrar" required>
+        <option value="">Seleccionar estado</option>
+        <option value="0">A tiempo</option>
+        <option value="1">Tarde</option>
+        <option value="2">No asistió</option>
+      </select>
+      <button onclick="registrarAsistencia()">Registrar</button>
+    </section>
+
+    <!-- Consultar Asistencia -->
+    <section>
+      <h2>Consultar Asistencia</h2>
+      <input type="text" id="codigoConsultar" placeholder="Código Asignatura" required>
+      <input type="text" id="grupoConsultar" placeholder="Grupo" required>
+      <input type="text" id="semestreConsultar" placeholder="Semestre" required>
+      <input type="date" id="fechaConsultar" required>
+      <input type="time" id="horaInicioConsultar" required>
+      <button onclick="consultarAsistencia()">Consultar</button>
+      <div id="resultadoConsulta" class="resultado"></div>
+    </section>
+
+  </div>
+
+  <script src="asistencia.js"></script>
+</body>
+
+</html>

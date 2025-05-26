@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Asignatura</title>
+    <link rel="stylesheet" href="asignatura.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gestión Asignatura</h1>
+
+        <!-- Crear Asignatura -->
+        <section>
+            <h2>Crear Nueva Asignatura</h2>
+            <input type="text" id="codigoCrear" placeholder="Código" required>
+            <input type="text" id="grupoCrear" placeholder="Grupo" required>
+            <input type="text" id="semestreCrear" placeholder="Semestre" required>
+            <input type="text" id="nombreCrear" placeholder="Nombre" required>
+            <input type="number" id="creditosCrear" placeholder="Créditos" required>
+            <button onclick="crearAsignatura()">Crear Asignatura</button>
+        </section>
+
+        <!-- Consultar Asignatura -->
+        <section>
+            <h2>Consultar Asignatura</h2>
+            <input type="text" id="codigoBuscar" placeholder="Código" required>
+            <input type="text" id="grupoBuscar" placeholder="Grupo" required>
+            <input type="text" id="semestreBuscar" placeholder="Semestre" required>
+            <button onclick="consultarAsignatura()">Consultar</button>
+            <div id="resultadoConsulta" class="resultado"></div>
+        </section>
+
+        <!-- Modificar Asignatura -->
+        <section>
+            <h2>Modificar Asignatura</h2>
+            <input type="text" id="codigoMod" placeholder="Código" required>
+            <input type="text" id="grupoMod" placeholder="Grupo" required>
+            <input type="text" id="semestreMod" placeholder="Semestre" required>
+            <input type="text" id="nuevoNombreMod" placeholder="Nuevo nombre" required>
+            <input type="number" id="nuevoCreditosMod" placeholder="Nuevos créditos" required>
+            <button onclick="modificarAsignatura()">Modificar</button>
+        </section>
+
+        <!-- Listar Asignaturas -->
+        <section>
+            <h2>Listado de Asignaturas</h2>
+            <button onclick="listarAsignaturas()">Ver Listado</button>
+            <div id="listadoAsignaturas" class="asignaturas"></div>
+        </section>
+    </div>
+
+    <script src="asignatura.js"></script>
+</body>
+
+</html>
