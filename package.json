@@ -1,21 +1,19 @@
 {
-  "name": "proyecto-con-jas",
+  "name": "fenixgestion",
   "version": "1.0.0",
-  "main": "estudiante.js",
+  "main": "Script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yijan05/FenixGestion.git"
+  },
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "firebase": "^11.8.1",
-    "firebase-admin": "^13.4.0",
-    "mysql2": "^3.14.1",
-    "nodemon": "^3.1.10",
-    "serverless-http": "^3.2.0"
-  }
+  "bugs": {
+    "url": "https://github.com/yijan05/FenixGestion/issues"
+  },
+  "homepage": "https://github.com/yijan05/FenixGestion#readme",
+  "description": ""
 }
