@@ -1,4 +1,13 @@
 [build]
+  functions = "netlify/functions"
+  publish = "frontend"  
 
-    functions = "netlify/functions"
- 
+[dev]
+  functions = "netlify/functions"
+  port = 8888
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  
