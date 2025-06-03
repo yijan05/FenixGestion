@@ -7,54 +7,39 @@ exports.handler = async (event) => {
     if (method === "POST") {
       const data = JSON.parse(event.body);
 
-      if (data.nombre) {
-        await db.collection("facultades").add({ nombre: data.nombre });
-        return {
-          statusCode: 201,
-          body: JSON.stringify({ mensaje: "Facultad agregada" })
-        };
-      }
-
-      if (
-        !data.codigo ||
-        !data.grupo ||
-        !data.semestre ||
-        !data.nombre ||
-        !data.creditos
-      ) {
+      if (!data.nombre) {
         return {
           statusCode: 400,
-          body: JSON.stringify({ error: "Faltan campos obligatorios para asignatura" })
+          body: JSON.stringify({ error: "El nombre es obligatorio" }),
         };
       }
 
-      await db.collection("asignaturas").add(data);
+      await db.collection("facultades").add(data);
 
       return {
         statusCode: 201,
-        body: JSON.stringify({ mensaje: "Asignatura agregada" })
+        body: JSON.stringify({ mensaje: "Facultad agregada con éxito" }),
       };
     }
 
     if (method === "GET" && event.queryStringParameters?.listar === "true") {
-      const snapshot = await db.collection("asignaturas").get();
-      const asignaturas = snapshot.docs.map(doc => doc.data());
+      const snapshot = await db.collection("facultades").get();
+      const facultades = snapshot.docs.map(doc => doc.data());
 
       return {
         statusCode: 200,
-        body: JSON.stringify(asignaturas)
+        body: JSON.stringify(facultades),
       };
     }
 
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: "Método no permitido" })
+      body: JSON.stringify({ error: "Método no permitido" }),
     };
   } catch (error) {
-    console.error("Error en función facultad:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Error interno del servidor" })
+      body: JSON.stringify({ error: "Error interno", detalle: error.message }),
     };
   }
 };
