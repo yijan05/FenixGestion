@@ -1,81 +1,45 @@
-class FacultadController {
-    constructor() {}
+const { db } = require('../firebaseAdmin');
 
-    consultar(req, res) {
+const departamentoController = {
+    async consultar(req, res) {
         try {
-            let facultades = [];
+            const snapshot = await db.collection('departamentos').get();
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
 
-            let fac1 = {
-                id: "F001",
-                nombre: "Ingeniería de Sistemas y Computación",
-                sede: "Ubaté"
-            };
+    async ingresar(req, res) {
+        try {
+            const { nombre } = req.body;
+            if (!nombre) return res.status(400).send("Falta el nombre");
 
-            let fac2 = {
-                id: "F002",
-                nombre: "Ciencias Económicas",
-                sede: "Facatativá"
-            };
+            const ref = await db.collection('departamentos').add({ nombre });
+            res.status(201).json({ id: ref.id });
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
 
-            facultades.push(fac1);
-            facultades.push(fac2);
+    async actualizar(req, res) {
+        try {
+            await db.collection('departamentos').doc(req.params.id).update(req.body);
+            res.status(200).send("Departamento actualizado");
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
 
-            res.status(200).send(JSON.stringify(facultades));
+    async borrar(req, res) {
+        try {
+            await db.collection('departamentos').doc(req.params.id).delete();
+            res.status(200).send("Departamento eliminado");
         } catch (err) {
             res.status(500).send(err.message);
         }
     }
+};
 
-    ingresar(req, res) {
-        try {
-            const { id, nombre, sede } = req.body;
-            console.log("ID de facultad:", id);
-            console.log("Nombre:", nombre);
-            console.log("Sede:", sede);
-
-            res.status(200).send("Facultad registrada correctamente");
-        } catch (err) {
-            res.status(500).send(err.message);
-        }
-    }
-
-    consultarDetalle(req, res) {
-        try {
-            const id = req.params.id;
-            const detalle = {
-                id: id,
-                nombre: "Facultad ejemplo",
-                sede: "Sede ejemplo"
-            };
-            res.status(200).send(JSON.stringify(detalle));
-        } catch (err) {
-            res.status(500).send(err.message);
-        }
-    }
-
-    actualizar(req, res) {
-        try {
-            const id = req.params.id;
-            const { nombre, sede } = req.body;
-            console.log(`Actualizando facultad con ID ${id}`);
-            console.log("Nuevo nombre:", nombre);
-            console.log("Nueva sede:", sede);
-
-            res.status(200).send(`Facultad ${id} actualizada correctamente`);
-        } catch (err) {
-            res.status(500).send(err.message);
-        }
-    }
-
-    borrar(req, res) {
-        try {
-            const id = req.params.id;
-            console.log(`Eliminando facultad con ID ${id}`);
-            res.status(200).send(`Facultad ${id} eliminada correctamente`);
-        } catch (err) {
-            res.status(500).send(err.message);
-        }
-    }
-}
-
-module.exports = new FacultadController();
+module.exports = departamentoController;

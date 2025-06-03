@@ -1,6 +1,4 @@
-let asignaturas = [];
-
-function crearAsignatura() {
+async function crearAsignatura() {
     const codigo = document.getElementById('codigoCrear').value;
     const grupo = document.getElementById('grupoCrear').value;
     const semestre = document.getElementById('semestreCrear').value;
@@ -8,59 +6,48 @@ function crearAsignatura() {
     const creditos = document.getElementById('creditosCrear').value;
 
     if (codigo && grupo && semestre && nombre && creditos) {
-        asignaturas.push({codigo, grupo, semestre, nombre, creditos});
-        alert("Asignatura creada exitosamente.");
-        limpiarInputs(['codigoCrear', 'grupoCrear', 'semestreCrear', 'nombreCrear', 'creditosCrear']);
+        try {
+            const response = await fetch('/.netlify/functions/asignaturas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo, grupo, semestre, nombre, creditos })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Asignatura creada exitosamente.");
+                limpiarInputs(['codigoCrear', 'grupoCrear', 'semestreCrear', 'nombreCrear', 'creditosCrear']);
+            } else {
+                alert("Error: " + result.error);
+            }
+        } catch (error) {
+            console.error("Error al guardar en Firebase:", error);
+            alert("No se pudo guardar la asignatura.");
+        }
     } else {
         alert("Todos los campos son obligatorios.");
     }
 }
 
-function consultarAsignatura() {
+async function consultarAsignatura() {
     const codigo = document.getElementById('codigoBuscar').value;
     const grupo = document.getElementById('grupoBuscar').value;
     const semestre = document.getElementById('semestreBuscar').value;
 
-    const asignatura = asignaturas.find(a => a.codigo === codigo && a.grupo === grupo && a.semestre === semestre);
-    const resultado = document.getElementById('resultadoConsulta');
+    try {
+        const response = await fetch(`/.netlify/functions/asignaturas?codigo=${codigo}&grupo=${grupo}&semestre=${semestre}`);
+        const result = await response.json();
+        const resultado = document.getElementById('resultadoConsulta');
 
-    if (asignatura) {
-        resultado.innerText = `Asignatura: ${asignatura.nombre}, Créditos: ${asignatura.creditos}`;
-    } else {
-        resultado.innerText = "Asignatura no encontrada.";
-    }
-}
-
-function modificarAsignatura() {
-    const codigo = document.getElementById('codigoMod').value;
-    const grupo = document.getElementById('grupoMod').value;
-    const semestre = document.getElementById('semestreMod').value;
-    const nuevoNombre = document.getElementById('nuevoNombreMod').value;
-    const nuevosCreditos = document.getElementById('nuevoCreditosMod').value;
-
-    const asignatura = asignaturas.find(a => a.codigo === codigo && a.grupo === grupo && a.semestre === semestre);
-
-    if (asignatura) {
-        asignatura.nombre = nuevoNombre;
-        asignatura.creditos = nuevosCreditos;
-        alert("Asignatura modificada correctamente.");
-    } else {
-        alert("Asignatura no encontrada.");
-    }
-}
-
-function listarAsignaturas() {
-    const listado = document.getElementById('listadoAsignaturas');
-    listado.innerHTML = "";
-
-    if (asignaturas.length === 0) {
-        listado.innerText = "No hay asignaturas registradas.";
-    } else {
-        asignaturas.forEach(a => {
-            const item = document.createElement('p');
-            item.innerText = `Código: ${a.codigo}, Grupo: ${a.grupo}, Semestre: ${a.semestre}, Nombre: ${a.nombre}, Créditos: ${a.creditos}`;
-            listado.appendChild(item);
-        });
+        if (response.ok && result) {
+            resultado.innerText = `Asignatura: ${result.nombre}, Créditos: ${result.creditos}`;
+        } else {
+            resultado.innerText = "Asignatura no encontrada.";
+        }
+    } catch (error) {
+        console.error("Error al consultar asignatura:", error);
+        document.getElementById('resultadoConsulta').innerText = "Error al consultar.";
     }
 }
 

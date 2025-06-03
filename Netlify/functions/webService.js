@@ -1,16 +1,15 @@
 const { db } = require('./firebaseAdmin');
 
-exports.handler = async function(event, context) {
+exports.handler = async function(event) {
   try {
-    // ejemplo: contar cuántos usuarios hay en la colección 'usuarios'
-    const snapshot = await db.collection('usuarios').get();
+    const snapshot = await db.collection('estudiantes').get();
     const total = snapshot.size;
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: 'Función webService activa',
-        usuariosRegistrados: total
+        estudiantesRegistrados: total
       }),
     };
   } catch (error) {
