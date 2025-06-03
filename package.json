@@ -15,5 +15,8 @@
     "url": "https://github.com/yijan05/FenixGestion/issues"
   },
   "homepage": "https://github.com/yijan05/FenixGestion#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "firebase-admin": "13.4.0"
+  }
 }
