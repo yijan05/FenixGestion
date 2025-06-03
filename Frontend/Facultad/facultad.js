@@ -2,7 +2,7 @@ document.getElementById('modificarNombreFacultad').addEventListener('click', asy
     const nombre = document.getElementById('nuevoNombreFacultad').value;
 
     if (nombre.trim() !== '') {
-        const response = await fetch('/.Netlify/functions/facultadS', {
+        const response = await fetch('/.netlify/functions/facultades', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombre })
@@ -23,7 +23,7 @@ document.getElementById('listarFacultades').addEventListener('click', async () =
     const container = document.getElementById('listadoFacultades');
     container.innerHTML = 'Cargando...';
 
-    const response = await fetch('/.Netlify/functions/facultadS?listar=true');
+    const response = await fetch('/.netlify/functions/facultades?listar=true');
     const data = await response.json();
 
     if (response.ok) {

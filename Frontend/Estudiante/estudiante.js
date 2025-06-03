@@ -7,7 +7,7 @@ async function agregarEstudiante() {
         const estudiante = { nombre, tipoDocumento, numeroDocumento };
 
         try {
-            const response = await fetch('/.Netlify/functions/estudiantes', {
+            const response = await fetch('/.netlify/functions/estudiantes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(estudiante)
@@ -34,7 +34,7 @@ async function consultarEstudiante() {
     const resultado = document.getElementById('resultadoConsulta');
 
     try {
-        const response = await fetch(`/.Netlify/functions/estudiantes?tipoDocumento=${tipoDocumento}&numeroDocumento=${numeroDocumento}`);
+        const response = await fetch(`/.netlify/functions/estudiantes?tipoDocumento=${tipoDocumento}&numeroDocumento=${numeroDocumento}`);
         const data = await response.json();
 
         if (response.ok) {
