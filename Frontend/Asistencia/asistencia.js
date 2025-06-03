@@ -1,22 +1,39 @@
-let asistencias = [];
-
-function crearListaAsistencia() {
+async function crearListaAsistencia() {
     const codigo = document.getElementById('codigoCrear').value;
     const grupo = document.getElementById('grupoCrear').value;
     const semestre = document.getElementById('semestreCrear').value;
     const fecha = document.getElementById('fechaCrear').value;
     const horaInicio = document.getElementById('horaInicioCrear').value;
-
+  
     if (codigo && grupo && semestre && fecha && horaInicio) {
-        asistencias.push({ codigo, grupo, semestre, fecha, horaInicio, registros: [] });
-        alert("Lista de asistencia creada exitosamente.");
+      const data = {
+        codigo,
+        grupo,
+        semestre,
+        fecha,
+        horaInicio,
+        registros: []
+      };
+  
+      try {
+        const response = await fetch('/.netlify/functions/asistencia', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tipo: 'crearLista', data })
+        });
+  
+        const resultado = await response.json();
+        alert(resultado.mensaje || 'Lista creada');
         limpiarInputs(['codigoCrear', 'grupoCrear', 'semestreCrear', 'fechaCrear', 'horaInicioCrear']);
+      } catch (err) {
+        alert("Error al crear lista");
+      }
     } else {
-        alert("Todos los campos son obligatorios.");
+      alert("Todos los campos son obligatorios.");
     }
-}
-
-function registrarAsistencia() {
+  }
+  
+  async function registrarAsistencia() {
     const codigo = document.getElementById('codigoRegistrar').value;
     const grupo = document.getElementById('grupoRegistrar').value;
     const semestre = document.getElementById('semestreRegistrar').value;
@@ -24,61 +41,75 @@ function registrarAsistencia() {
     const horaInicio = document.getElementById('horaInicioRegistrar').value;
     const documento = document.getElementById('documentoRegistrar').value;
     const estado = document.getElementById('estadoRegistrar').value;
-
-    const asistencia = asistencias.find(a => 
-        a.codigo === codigo &&
-        a.grupo === grupo &&
-        a.semestre === semestre &&
-        a.fecha === fecha &&
-        a.horaInicio === horaInicio
-    );
-
-    if (asistencia) {
-        asistencia.registros.push({ documento, estado });
-        alert("Asistencia registrada.");
+  
+    if (codigo && grupo && semestre && fecha && horaInicio && documento && estado !== "") {
+      const data = {
+        codigo,
+        grupo,
+        semestre,
+        fecha,
+        horaInicio,
+        documento,
+        estado
+      };
+  
+      try {
+        const response = await fetch('/.netlify/functions/asistencia', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tipo: 'registrar', data })
+        });
+  
+        const resultado = await response.json();
+        alert(resultado.mensaje || 'Registro exitoso');
+      } catch (err) {
+        alert("Error al registrar asistencia.");
+      }
     } else {
-        alert("No se encontró la lista de asistencia.");
+      alert("Todos los campos son obligatorios.");
     }
-}
-
-function consultarAsistencia() {
+  }
+  
+  async function consultarAsistencia() {
     const codigo = document.getElementById('codigoConsultar').value;
     const grupo = document.getElementById('grupoConsultar').value;
     const semestre = document.getElementById('semestreConsultar').value;
     const fecha = document.getElementById('fechaConsultar').value;
     const horaInicio = document.getElementById('horaInicioConsultar').value;
-
-    const asistencia = asistencias.find(a => 
-        a.codigo === codigo &&
-        a.grupo === grupo &&
-        a.semestre === semestre &&
-        a.fecha === fecha &&
-        a.horaInicio === horaInicio
-    );
-
+  
     const resultado = document.getElementById('resultadoConsulta');
-    resultado.innerHTML = "";
-
-    if (asistencia && asistencia.registros.length > 0) {
-        asistencia.registros.forEach(r => {
-            const item = document.createElement('p');
-            item.innerText = `Documento: ${r.documento} | Estado: ${estadoComoTexto(r.estado)}`;
-            resultado.appendChild(item);
+    resultado.innerHTML = 'Consultando...';
+  
+    try {
+      const response = await fetch(`/.netlify/functions/asistencia?codigo=${codigo}&grupo=${grupo}&semestre=${semestre}&fecha=${fecha}&horaInicio=${horaInicio}`);
+      const data = await response.json();
+  
+      resultado.innerHTML = '';
+  
+      if (data && data.registros?.length > 0) {
+        data.registros.forEach(r => {
+          const item = document.createElement('p');
+          item.innerText = `Documento: ${r.documento} | Estado: ${estadoComoTexto(r.estado)}`;
+          resultado.appendChild(item);
         });
-    } else {
-        resultado.innerText = "No se encontraron registros de asistencia.";
+      } else {
+        resultado.innerText = 'No se encontraron registros.';
+      }
+    } catch (error) {
+      resultado.innerText = 'Error al consultar asistencia.';
     }
-}
-
-function estadoComoTexto(estado) {
+  }
+  
+  function estadoComoTexto(estado) {
     switch (estado) {
-        case "0": return "Asistió a tiempo";
-        case "1": return "Llegó tarde";
-        case "2": return "No asistió";
-        default: return "Estado desconocido";
+      case "0": return "Asistió a tiempo";
+      case "1": return "Llegó tarde";
+      case "2": return "No asistió";
+      default: return "Desconocido";
     }
-}
-
-function limpiarInputs(ids) {
+  }
+  
+  function limpiarInputs(ids) {
     ids.forEach(id => document.getElementById(id).value = "");
-}
+  }
+  

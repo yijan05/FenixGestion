@@ -1,17 +1,66 @@
-var express = require("express");
-var cors = require("cors");
-var serverless = require("serverless-http");
-var port = process.env.PORT || 5000;
+const { db } = require("./firebaseAdmin");
 
-var app = express();
-var router = express.Router();
+exports.handler = async (event) => {
+  try {
+    const method = event.httpMethod;
 
-var estudiantesroutes = require("../../backend/routes/estudiantesroutes.js");
+    if (method === "POST") {
+      const data = JSON.parse(event.body);
 
-app.use(express.json());
-app.use(cors());
+      if (!data.nombre || !data.tipoDocumento || !data.numeroDocumento) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: "Faltan campos obligatorios" }),
+        };
+      }
 
-router.use("/estudiantes", estudiantesroutes);
-app.use("/.netlify/functions", router);
+      await db.collection("estudiantes").add(data);
 
-module.exports.handler = serverless(app);
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ mensaje: "Estudiante registrado" }),
+      };
+    }
+
+    if (method === "GET") {
+      const { tipoDocumento, numeroDocumento } = event.queryStringParameters || {};
+
+      if (!tipoDocumento || !numeroDocumento) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: "Faltan parámetros de búsqueda" }),
+        };
+      }
+
+      const snapshot = await db.collection("estudiantes")
+        .where("tipoDocumento", "==", tipoDocumento)
+        .where("numeroDocumento", "==", numeroDocumento)
+        .get();
+
+      if (snapshot.empty) {
+        return {
+          statusCode: 404,
+          body: JSON.stringify({ error: "Estudiante no encontrado" }),
+        };
+      }
+
+      const estudiante = snapshot.docs[0].data();
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(estudiante),
+      };
+    }
+
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: "Método no permitido" }),
+    };
+
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Error interno del servidor" }),
+    };
+  }
+};

@@ -1,44 +1,58 @@
-class EstudianteController {
-    constructor() {}
+const { db } = require('../firebaseAdmin');
 
-    consultar(req, res) {
+const estudianteController = {
+    async consultar(req, res) {
         try {
-            let arreglo = [];
-            let myObj1 = {
-                dni: "1234",
-                nombre: "Juan",
-                apellidos: "Perez",
-                email: "ejemplo@nose.com"
-            };
-            let myObj2 = {
-                dni: "2",
-                nombre: "J2uan",
-                apellidos: "222Perez",
-                email: "222ejemplo@nose.com"
-            };
+            const snapshot = await db.collection('estudiantes').get();
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
 
-            arreglo.push(myObj1);
-            arreglo.push(myObj2);
+    async ingresar(req, res) {
+        try {
+            const { tipoDocumento, numeroDocumento, nombres, apellidos, departamento } = req.body;
+            if (!tipoDocumento || !numeroDocumento || !nombres || !apellidos || !departamento) {
+                return res.status(400).send("Faltan campos obligatorios");
+            }
 
-            let myJSON = JSON.stringify(arreglo);
-            res.status(200).send(myJSON);
+            const nuevo = { tipoDocumento, numeroDocumento, nombres, apellidos, departamento };
+            const ref = await db.collection('estudiantes').add(nuevo);
+            res.status(201).json({ id: ref.id });
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
+
+    async consultarDetalle(req, res) {
+        try {
+            const doc = await db.collection('estudiantes').doc(req.params.id).get();
+            if (!doc.exists) return res.status(404).send("No encontrado");
+            res.status(200).json({ id: doc.id, ...doc.data() });
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
+
+    async actualizar(req, res) {
+        try {
+            await db.collection('estudiantes').doc(req.params.id).update(req.body);
+            res.status(200).send("Estudiante actualizado");
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
+
+    async borrar(req, res) {
+        try {
+            await db.collection('estudiantes').doc(req.params.id).delete();
+            res.status(200).send("Estudiante eliminado");
         } catch (err) {
             res.status(500).send(err.message);
         }
     }
+};
 
-    ingresar(req, res) {
-        try {
-            const { dni, nombre, apellidos, email } = req.body;
-            console.log("Documento de identidad: " + dni);
-            console.log("Nombres con apellidos: " + nombre + " " + apellidos);
-            console.log("Email: " + email);
-
-            res.status(200).send("Funcionó ok");
-        } catch (err) {
-            res.status(500).send(err.message);
-        }
-    }
-}
-
-module.exports = new EstudianteController();
+module.exports = estudianteController;
