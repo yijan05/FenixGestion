@@ -5,73 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Facultad</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="facultad.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>Gestión Facultad - Completa</h1>
+        <h1>Gestión Facultad</h1>
 
-        <!-- Nombre Facultad -->
+        <!-- Agregar Facultad -->
         <section>
-            <h2>Nombre de la Facultad</h2>
-            <div>
-                <input type="text" id="nuevoNombreFacultad" placeholder="Nuevo nombre de la facultad"required>
-                <button onclick="modificarNombreFacultad()">Modificar Nombre</button>
-                <div class="resultado" id="nombreFacultadActual"></div>
-            </div>
+            <h2>Agregar Facultad</h2>
+            <input type="text" id="nuevoNombreFacultad" placeholder="Nombre de la facultad" required>
+            <button id="modificarNombreFacultad">Guardar Facultad</button>
+            <div class="resultado" id="nombreFacultadActual"></div>
         </section>
 
-        <!-- Agregar Asignatura -->
+        <!-- Listar Facultades -->
         <section>
-            <h2>Agregar Asignatura</h2>
-            <input type="text" id="codigo" placeholder="Código"required>
-            <input type="text" id="grupo" placeholder="Grupo"required>
-            <input type="text" id="semestre" placeholder="Semestre"required>
-            <input type="text" id="nombreAsignatura" placeholder="Nombre"required>
-            <input type="number" id="creditos" placeholder="Créditos"required>
-            <button onclick="agregarAsignatura()">Agregar</button>
-        </section>
-
-        <!-- Consultar Asignatura -->
-        <section>
-            <h2>Consultar Asignatura</h2>
-            <input type="text" id="codigoBuscar" placeholder="Código"required>
-            <input type="text" id="grupoBuscar" placeholder="Grupo"required>
-            <input type="text" id="semestreBuscar" placeholder="Semestre"required>
-            <button onclick="consultarAsignatura()">Consultar</button>
-            <div class="resultado" id="resultadoConsulta"></div>
-        </section>
-
-        <!-- Modificar Asignatura -->
-        <section>
-            <h2>Modificar Asignatura</h2>
-            <input type="text" id="codigoMod" placeholder="Código"required>
-            <input type="text" id="grupoMod" placeholder="Grupo"required>
-            <input type="text" id="semestreMod" placeholder="Semestre"required>
-            <input type="text" id="nuevoNombreMod" placeholder="Nuevo nombre"required>
-            <input type="number" id="nuevoCreditosMod" placeholder="Nuevos créditos"required>
-            <button onclick="modificarAsignatura()">Modificar</button>
-        </section>
-
-        <!-- Eliminar Asignatura -->
-        <section>
-            <h2>Eliminar Asignatura</h2>
-            <input type="text" id="codigoDel" placeholder="Código"required>
-            <input type="text" id="grupoDel" placeholder="Grupo"required>
-            <input type="text" id="semestreDel" placeholder="Semestre"required>
-            <button onclick="eliminarAsignatura()">Eliminar</button>
-        </section>
-
-        <!-- Listar Asignaturas -->
-        <section>
-            <h2>Listado de Asignaturas</h2>
-            <button onclick="listarAsignaturas()">Ver Listado</button>
-            <div class="asignaturas" id="listadoAsignaturas"></div>
+            <h2>Facultades Registradas</h2>
+            <button id="listarFacultades">Listar Facultades</button>
+            <div id="listadoFacultades"></div>
         </section>
     </div>
-
-    <script src="script.js"></script>
+    <script src="facultad.js"></script>
 </body>
 
 </html>

@@ -1,77 +1,43 @@
 document.getElementById('modificarNombreFacultad').addEventListener('click', async () => {
-    const nuevoNombre = document.getElementById('nuevoNombreFacultad').value;
+    const nombre = document.getElementById('nuevoNombreFacultad').value;
 
-    if (nuevoNombre.trim() !== '') {
+    if (nombre.trim() !== '') {
         const response = await fetch('/.netlify/functions/facultadS', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: nuevoNombre })
+            body: JSON.stringify({ nombre })
         });
 
         const resultado = await response.json();
 
         if (response.ok) {
-            document.getElementById('nombreFacultadActual').innerText = `Nombre actualizado: ${nuevoNombre}`;
+            document.getElementById('nombreFacultadActual').innerText = `Facultad guardada: ${nombre}`;
+            document.getElementById('nuevoNombreFacultad').value = '';
         } else {
-            alert("Error al actualizar: " + resultado.error);
+            alert("Error al guardar: " + resultado.error);
         }
     }
 });
 
-document.getElementById('agregarAsignatura').addEventListener('click', async () => {
-    const codigo = document.getElementById('codigo').value;
-    const grupo = document.getElementById('grupo').value;
-    const semestre = document.getElementById('semestre').value;
-    const nombre = document.getElementById('nombreAsignatura').value;
-    const creditos = document.getElementById('creditos').value;
+document.getElementById('listarFacultades').addEventListener('click', async () => {
+    const container = document.getElementById('listadoFacultades');
+    container.innerHTML = 'Cargando...';
 
-    if (codigo && grupo && semestre && nombre && creditos) {
-        const response = await fetch('/.netlify/functions/facultad', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                codigo,
-                grupo,
-                semestre,
-                nombre,
-                creditos
-            })
-        });
-
-        const resultado = await response.json();
-
-        if (response.ok) {
-            alert("Asignatura agregada exitosamente.");
-            limpiarInputs(['codigo', 'grupo', 'semestre', 'nombreAsignatura', 'creditos']);
-        } else {
-            alert("Error al agregar asignatura: " + resultado.error);
-        }
-    }
-});
-
-document.getElementById('listarAsignaturas').addEventListener('click', async () => {
-    const divListado = document.getElementById('listadoAsignaturas');
-    divListado.innerHTML = 'Cargando...';
-
-    const response = await fetch('/.netlify/functions/facultad?listar=true');
+    const response = await fetch('/.netlify/functions/facultadS?listar=true');
     const data = await response.json();
 
     if (response.ok) {
-        divListado.innerHTML = '';
+        container.innerHTML = '';
         if (data.length === 0) {
-            divListado.innerText = "No hay asignaturas registradas.";
+            container.innerText = 'No hay facultades registradas.';
         } else {
-            data.forEach(a => {
+            data.forEach(f => {
                 const item = document.createElement('p');
-                item.innerText = `Código: ${a.codigo}, Grupo: ${a.grupo}, Semestre: ${a.semestre}, Nombre: ${a.nombre}, Créditos: ${a.creditos}`;
-                divListado.appendChild(item);
+                item.innerText = `Facultad: ${f.nombre}`;
+                container.appendChild(item);
             });
         }
     } else {
-        divListado.innerText = 'Error al cargar asignaturas.';
+        container.innerText = 'Error al cargar facultades.';
     }
 });
-
-function limpiarInputs(ids) {
-    ids.forEach(id => document.getElementById(id).value = '');
-}
