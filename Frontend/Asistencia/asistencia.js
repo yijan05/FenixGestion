@@ -16,7 +16,7 @@ async function crearListaAsistencia() {
       };
   
       try {
-        const response = await fetch('/.netlify/functions/asistencia', {
+        const response = await fetch('/.Netlify/functions/asistencias', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ tipo: 'crearLista', data })
@@ -54,7 +54,7 @@ async function crearListaAsistencia() {
       };
   
       try {
-        const response = await fetch('/.netlify/functions/asistencia', {
+        const response = await fetch('/.Netlify/functions/asistencias', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ tipo: 'registrar', data })
@@ -81,7 +81,7 @@ async function crearListaAsistencia() {
     resultado.innerHTML = 'Consultando...';
   
     try {
-      const response = await fetch(`/.netlify/functions/asistencia?codigo=${codigo}&grupo=${grupo}&semestre=${semestre}&fecha=${fecha}&horaInicio=${horaInicio}`);
+      const response = await fetch(`/.Netlify/functions/asistencias?codigo=${codigo}&grupo=${grupo}&semestre=${semestre}&fecha=${fecha}&horaInicio=${horaInicio}`);
       const data = await response.json();
   
       resultado.innerHTML = '';

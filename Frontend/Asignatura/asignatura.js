@@ -7,7 +7,7 @@ async function crearAsignatura() {
 
     if (codigo && grupo && semestre && nombre && creditos) {
         try {
-            const response = await fetch('/.netlify/functions/asignaturas', {
+            const response = await fetch('/.Netlify/functions/asignaturas', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ codigo, grupo, semestre, nombre, creditos })
@@ -36,7 +36,7 @@ async function consultarAsignatura() {
     const semestre = document.getElementById('semestreBuscar').value;
 
     try {
-        const response = await fetch(`/.netlify/functions/asignaturas?codigo=${codigo}&grupo=${grupo}&semestre=${semestre}`);
+        const response = await fetch(`/.Netlify/functions/asignaturas?codigo=${codigo}&grupo=${grupo}&semestre=${semestre}`);
         const result = await response.json();
         const resultado = document.getElementById('resultadoConsulta');
 
