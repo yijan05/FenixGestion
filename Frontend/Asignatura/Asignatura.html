@@ -1,54 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestión Asignatura</title>
-  <link rel="stylesheet" href="asignatura.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Asignatura</title>
+    <link rel="stylesheet" href="asignatura.css">
 </head>
 
 <body>
-  <div class="container">
-    <div class="form-panel">
-      <div class="logo"> Gestión de Asignaturas</div>
+    <div class="container">
+        <h1>Gestión Asignatura</h1>
+        <img src="asignatura.svg" alt="Imagen de Asignatura" class="imagen-asignatura">
 
-      <h2>Registrar Asignatura</h2>
-      <form id="formulario-crear">
-        <input type="text" id="codigoCrear" placeholder="Código" required />
-        <input type="text" id="grupoCrear" placeholder="Grupo" required />
-        <input type="text" id="semestreCrear" placeholder="Semestre" required />
-        <input type="text" id="nombreCrear" placeholder="Nombre" required />
-        <input type="number" id="creditosCrear" placeholder="Créditos" required />
-        <button type="submit">Crear Asignatura</button>
-      </form>
+        <!-- Crear Asignatura -->
+        <section>
+            <h2>Crear Nueva Asignatura</h2>
+            <input type="text" id="codigoCrear" placeholder="Código" required>
+            <input type="text" id="grupoCrear" placeholder="Grupo" required>
+            <input type="text" id="semestreCrear" placeholder="Semestre" required>
+            <input type="text" id="nombreCrear" placeholder="Nombre" required>
+            <input type="number" id="creditosCrear" placeholder="Créditos" required>
+            <button onclick="crearAsignatura()">Crear Asignatura</button>
+        </section>
 
-      <h2>Consultar Asignatura</h2>
-      <form id="formulario-consultar">
-        <input type="text" id="codigoBuscar" placeholder="Código" required />
-        <input type="text" id="grupoBuscar" placeholder="Grupo" required />
-        <input type="text" id="semestreBuscar" placeholder="Semestre" required />
-        <button type="submit">Consultar</button>
-      </form>
-      <div id="resultadoConsulta" class="resultado"></div>
+        <!-- Consultar Asignatura -->
+        <section>
+            <h2>Consultar Asignatura</h2>
+            <input type="text" id="codigoBuscar" placeholder="Código" required>
+            <input type="text" id="grupoBuscar" placeholder="Grupo" required>
+            <input type="text" id="semestreBuscar" placeholder="Semestre" required>
+            <button onclick="consultarAsignatura()">Consultar</button>
+            <div id="resultadoConsulta" class="resultado"></div>
+        </section>
 
-      <h2>Modificar Asignatura</h2>
-      <form id="formulario-modificar">
-        <input type="text" id="codigoMod" placeholder="Código" required />
-        <input type="text" id="grupoMod" placeholder="Grupo" required />
-        <input type="text" id="semestreMod" placeholder="Semestre" required />
-        <input type="text" id="nuevoNombreMod" placeholder="Nuevo nombre" required />
-        <input type="number" id="nuevoCreditosMod" placeholder="Nuevos créditos" required />
-        <button type="submit">Modificar</button>
-      </form>
+        <!-- Modificar Asignatura -->
+        <section>
+            <h2>Modificar Asignatura</h2>
+            <input type="text" id="codigoMod" placeholder="Código" required>
+            <input type="text" id="grupoMod" placeholder="Grupo" required>
+            <input type="text" id="semestreMod" placeholder="Semestre" required>
+            <input type="text" id="nuevoNombreMod" placeholder="Nuevo nombre" required>
+            <input type="number" id="nuevoCreditosMod" placeholder="Nuevos créditos" required>
+            <button onclick="modificarAsignatura()">Modificar</button>
+        </section>
 
-      <h2>Listado de Asignaturas</h2>
-      <button id="btn-listar">Ver Listado</button>
-      <div id="listadoAsignaturas" class="asignaturas"></div>
-
-      <a class="btn-volver" href="../../index.html">Volver al menú principal</a>
+        <!-- Listar Asignaturas -->
+        <section>
+            <h2>Listado de Asignaturas</h2>
+            <button onclick="listarAsignaturas()">Ver Listado</button>
+            <div id="listadoAsignaturas" class="asignaturas"></div>
+        </section>
     </div>
-  </div>
 
-  <script src="asignatura.js"></script>
+    <script src="asignatura.js"></script>
 </body>
+
 </html>

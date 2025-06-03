@@ -24,31 +24,23 @@ body {
     gap: 40px;
 }
 
-/* Panel interno (adaptado al nuevo HTML) */
-.form-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-/* Logo / Título */
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
 /* Títulos */
-h1, h2, h3 {
+h1, h2 {
     text-align: center;
     margin: 0 0 20px 0;
     color: #222222;
     font-weight: bold;
 }
 
-/* Formularios */
-form {
+/* Imagen debajo del título */
+.imagen-asignatura {
+    display: block;
+    max-width: 200px;
+    margin: 0 auto 30px auto;
+}
+
+/* Secciones */
+section {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -98,25 +90,4 @@ button:hover {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #CCCCCC;
-}
-
-/* Botón volver */
-.btn-volver {
-    margin-top: 20px;
-    text-align: center;
-    display: block;
-    font-size: 14px;
-    color: #222222;
-    text-decoration: none;
-    font-weight: bold;
-    background-color: #F0F0F0;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #CCCCCC;
-    transition: background-color 0.3s ease;
-    align-self: center;
-}
-
-.btn-volver:hover {
-    background-color: #E0E0E0;
 }
